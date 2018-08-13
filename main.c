@@ -32,6 +32,18 @@ char * append(char *a,int number,int digit)
     }
     s = n+r;
     o = p+n;
+
+    // Adding the sub-string
+    for(i=p;i<s;i++){
+        x = c[i];
+        if(t<n)
+        {
+            a[i] = b[t];
+            t=t+1;
+        }
+        a[o]=x;
+        o=o+1;
+    }
     return a;
 }
     
