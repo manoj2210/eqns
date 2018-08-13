@@ -24,5 +24,14 @@ char * append(char *a,int number,int digit)
     r = strlen(a);
     n = strlen(b);
     i=0;
+
+    // Copying the input string into another array
+    while(i <= r){
+        c[i]=a[i];
+        i++;
+    }
+    s = n+r;
+    o = p+n;
     return a;
 }
+    
