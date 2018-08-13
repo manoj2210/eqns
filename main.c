@@ -4,6 +4,10 @@
 #include<complex.h>
 #include<math.h>
 
+//Global variable
+int degree=1;
+char s_left[100]={0},s_right[100]={0};
+
 //Function for removing all the blank spaces in the input
 char * append(char *a,int number,int digit)
 {
@@ -47,3 +51,20 @@ char * append(char *a,int number,int digit)
     return a;
 }
     
+//Function for separating the left sid eand right side with some changes
+void side_separation(char*s)
+{
+    int i,j=0;
+    for(i=0;s[i]!='=';i++)
+    {
+        s_left[i]=s[i];
+    }
+    s_left[i]=' ';//There should me a space bar before the end for certain uses
+    s_left[i+1]=0;
+    for(i=i+1;s[i];i++,j++)
+    {
+        s_right[j]=s[i];
+    }
+    s_right[i]=' ';//There should me a space bar before the end for certain uses
+    s_right[i+1]=0;
+}
