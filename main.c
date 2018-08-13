@@ -1,4 +1,3 @@
-//Brackets are not allowed and Function division is not allowed
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
@@ -25,26 +24,5 @@ char * append(char *a,int number,int digit)
     r = strlen(a);
     n = strlen(b);
     i=0;
-
-    // Copying the input string into another array
-    while(i <= r){
-        c[i]=a[i];
-        i++;
-    }
-    s = n+r;
-    o = p+n;
-
-    // Adding the sub-string
-    for(i=p;i<s;i++){
-        x = c[i];
-        if(t<n)
-        {
-            a[i] = b[t];
-            t=t+1;
-        }
-        a[o]=x;
-        o=o+1;
-    }
     return a;
 }
-    
