@@ -113,3 +113,15 @@ void side_separation(char*s)
     s_right[i]=' ';//There should me a space bar before the end for certain uses
     s_right[i+1]=0;
 }
+
+//Function for calculating the number of digits
+int number_of_digits(int a)
+{
+    int count = 0;
+    while(a != 0)
+    {
+        a /= 10;
+        ++count;
+    }
+    return count;
+}
