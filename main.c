@@ -50,8 +50,53 @@ char * append(char *a,int number,int digit)
     }
     return a;
 }
+
+//Function to remove spaces between the equation
+char * rem_space(char *s)
+{
+    int i,j, len=strlen(s);
+	for(i=0; i<len; i++)
+	{
+	    if(s[i]==' '&&s[i+1]!='=')
+		{
+			for(j=i; j<len; j++)
+			{
+				s[j]=s[j+1];
+			}
+		len--;
+		}
+	}
+    for(i=0; s[i]; i++)
+    {
+        if(s[i]>='a'&&s[i]<='z')
+        {
+            if(i>0)
+            {
+                if(!(s[i-1]>='0'&&s[i-1]<='9'))
+                {
+                    s=append(s,2,i);
+                }
+            }
+            else
+            {
+                s=append(s,2,i);
+            }
+        }
+    }
+     for(i=0; s[i]; i++)
+    {
+        if(s[i]>='a'&&s[i]<='z')
+        {
+            if(s[i+1]!='^')
+            {
+                s=append(s,1,i+1);
+            }
+        }
+    }
+    return (s);
+}
     
-//Function for separating the left sid eand right side with some changes
+//Function for separating the left side and right side with some changes
 void side_separation(char*s)
 {
     int i,j=0;
