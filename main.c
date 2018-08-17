@@ -10,6 +10,7 @@ char s_left[100]={0},s_right[100]={0};
 
 float coefficient_arr[26][100]={0},temp=0;
 double con=0,con1=0,con2=0,con3=0;
+float coefficient_input_arr[100]={0};
 
 //Function for removing all the blank spaces in the input
 char * append(char *a,int number,int digit)
@@ -208,4 +209,30 @@ void parse_input(char *equation)
     input_conversion_left(s_left);
     input_conversion_right(s_right);
 
+}
+
+//function for finding the coefficients of the inputs
+void coefficient_input()
+{
+    int j,var_iable=0;
+    for(int i=0;i<26;i++)
+    {
+        for(int j=0;j<=degree;j++)
+        {
+            if(coefficient_arr[i][j]!=0)
+            {
+                var_iable=i;
+            }
+        }
+    }
+    int m=0,k;
+    k=coefficient_arr[var_iable][degree];
+    for(int i=degree-1;i!=0;i--,m++)
+    {
+
+        coefficient_input_arr[m]=coefficient_arr[var_iable][i];
+        coefficient_input_arr[m]/=k;
+    }
+    coefficient_input_arr[degree-1]=con;
+    coefficient_input_arr[degree-1]/=k;
 }
