@@ -153,3 +153,28 @@ void input_conversion_left(char *s)
             }
         }
 }
+
+//This right side is subtracted with left side
+void input_conversion_right(char *s)
+{
+    int coefficient=0;
+    for(int i=0;s[i];i=i+2)
+        {
+            if(s[i-1]=='-'&&i>0)
+                coefficient=-1*atoi(s+i);
+            else
+                coefficient=atoi(s+i);
+            i=i-1+number_of_digits(coefficient);
+            if(s[i+1]>='a'&&s[i+1]<='z')
+			{
+                if(s[i+2]=='^')
+                    {
+                            coefficient_arr[s[i+1]-'a'][s[i+3]-'0']+=-1*coefficient;i+=3;
+					}
+            }
+             else
+            {
+                con+=-1*coefficient;
+            }
+        }
+}
