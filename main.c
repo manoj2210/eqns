@@ -194,3 +194,18 @@ void degree_function()
         }
     }
  }
+
+ /*
+    Here in this function, we parse a a given string of equation to the format 
+    we need it to be 
+*/
+void parse_input(char *equation)
+{
+    char *s;
+    int coefficient=0;
+    s=rem_space(equation);
+    side_separation(s);
+    input_conversion_left(s_left);
+    input_conversion_right(s_right);
+
+}
