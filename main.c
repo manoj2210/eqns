@@ -178,3 +178,19 @@ void input_conversion_right(char *s)
             }
         }
 }
+
+//Function for identifing The degree and the powers present
+void degree_function()
+{
+    for(int i=0;i<26;i++)
+    {
+        for(int j=0;j<100;j++)
+        {
+            if(coefficient_arr[i][j]!=0)
+            {
+                if(j>degree)
+                degree=j;
+            }
+        }
+    }
+ }
