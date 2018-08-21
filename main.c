@@ -333,6 +333,45 @@ void evaluation(char *str)
     coefficient_input();
 }
 
+void factorize(char *str)
+{
+    evaluation(str);
+    double complex * factors = polyroot(degree);
+    
+    //A temporary placeholder for strings that are printed to GTK window.
+    char string_to_print[50];
+    //Print out the evaluated equation
+    sprintf(string_to_print, "The given equation is : \n\n\0");
+    print_to_label(factors_output_label,string_to_print,0);
+
+    for(int i=0;i<26;i++)
+    {
+        for(int j=0;j<10;j++)
+        {
+            if(coefficient_arr[i][j]!=0)
+            {
+                g_print("%+.2f%c^%d ",coefficient_arr[i][j],i+'a',j);
+                
+                sprintf(string_to_print, "%+.2f%c^%d \0",coefficient_arr[i][j],i+'a',j);
+                print_to_label(factors_output_label,string_to_print,0);
+            }
+        }
+    }
+    g_print("%+.2f = 0",con);
+    sprintf(string_to_print, "%+.2f = 0",con);
+    print_to_label(factors_output_label,string_to_print,0);
+    
+    print_to_label(factors_output_label,"\n\nThe roots are : ", 0);
+    for(int i=0;i<degree;i++)
+    {
+        g_print(complex_to_string(factors[i]));
+
+        sprintf(string_to_print, "\n%s", complex_to_string(factors[i]));
+        print_to_label(factors_output_label, string_to_print, 0);
+
+    }
+}
+
 // Set up the UI for a screen
 void show_factorize_screen(GtkWidget *widget, GtkApplication *app)
 {
