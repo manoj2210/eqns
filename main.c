@@ -4,13 +4,54 @@
 #include<complex.h>
 #include<math.h>
 
+//Declaration
+void evaluation(char *str);
+void coefficient_input();
+int number_of_digits(int a);
+void side_separation(char*s);
+char * rem_space(char *s);
+void input_conversion_left(char *s);
+void input_conversion_right(char *s);
+double complex poly(int , double complex);
+double complex * polyroot(int );
+void factorize(char *str);
+float two_variablesolve(float a1,float b1,float a2,float b2,char var1,char var2);
+void solve_2_equations();
+void solve_3_equations();
+void findSolution(double coeff[3][4]);
+double determinantOfMatrix(double mat[3][3]);
+
+char * complex_to_string(double complex number);
+void compute_factors(GtkWidget *widget, GtkWidget *text);
+void print_to_label(GtkWidget *label, char *string, int clear_before_printing);
+void reset_all();
+void parse_input(char *equation);
+
+
+// The label in which the factors in Factorize screen are shown
+GtkWidget *factors_output_label;
+
+// The label in which the solution are shown(in both 2 equation and 3 equation screens) are shown
+GtkWidget *solution_output_label;
+
+// A GtkEntry which will act as an input for equation
+GtkWidget *equation_textbox1;
+
+// A GtkEntry which will act as an input for equation
+GtkWidget *equation_textbox2;
+
+// A GtkEntry which will act as an input for equation
+GtkWidget *equation_textbox3;
+
 //Global variable
 int degree=1;
 char s_left[100]={0},s_right[100]={0};
-
 float coefficient_arr[26][100]={0},temp=0;
-double con=0,con1=0,con2=0,con3=0;
 float coefficient_input_arr[100]={0};
+float coefficient_arr1[26][100]={0};
+float coefficient_arr2[26][100]={0};
+float coefficient_arr3[26][100]={0};
+double con=0,con1=0,con2=0,con3=0;
 
 //Function for removing all the blank spaces in the input
 char * append(char *a,int number,int digit)
@@ -290,4 +331,86 @@ void evaluation(char *str)
 
     degree_function();
     coefficient_input();
+}
+
+// Set up the UI for a screen
+void show_factorize_screen(GtkWidget *widget, GtkApplication *app)
+{
+    // The window that contains all the widgets.
+    GtkWidget *window;
+
+    // A button with the label "Factorize" that calculates fators when clicked
+    GtkWidget *factorize_button;
+
+    // The grid in which all the widgets are placed
+    GtkWidget *grid;
+
+    // A GtkEntry which will act as an input for equation
+    GtkWidget *equation_textbox;
+
+    // A label with the text "Enter an equation to factorize"
+    GtkWidget *enter_eqn_label;
+
+    // A label to show the factors after calculating.
+    GtkWidget *factors_label;
+
+    // Initialize and configure UI
+    window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_title (GTK_WINDOW (window), "Factoize - EQNS");
+
+    // When a window is set to modal it prevents interaction witb other windows.
+    gtk_window_set_modal(GTK_WINDOW (window), TRUE);
+    gtk_window_set_default_size (GTK_WINDOW (window), 1000, 500);
+
+    equation_textbox = gtk_entry_new();
+    gtk_widget_set_size_request(GTK_WIDGET(equation_textbox), 500, 20);
+    gtk_entry_set_placeholder_text(GTK_ENTRY(equation_textbox), "Enter an equation !");
+    factorize_button = gtk_button_new_with_label ("Factorize");
+    
+    g_signal_connect (factorize_button, "clicked", G_CALLBACK (compute_factors), equation_textbox);
+    gtk_widget_set_size_request(GTK_WIDGET(factorize_button), 10, 30);
+
+    enter_eqn_label = gtk_label_new("Enter an equation to factorize : ");
+
+    factors_label = gtk_label_new("\n\n  Factors:\n ");
+
+    grid = gtk_grid_new();
+    
+    gtk_widget_set_hexpand (factorize_button, TRUE);
+    gtk_widget_set_halign (factorize_button, GTK_ALIGN_CENTER);
+
+    gtk_widget_set_hexpand (equation_textbox, TRUE);
+    gtk_widget_set_halign (equation_textbox, GTK_ALIGN_CENTER);
+
+    gtk_widget_set_hexpand (factors_label, FALSE);
+    gtk_widget_set_halign (factors_label, GTK_ALIGN_START);
+
+
+    gtk_grid_attach(GTK_GRID(grid), enter_eqn_label, 0, 0, 10, 1);
+
+    gtk_grid_attach_next_to(GTK_GRID(grid), equation_textbox, enter_eqn_label, GTK_POS_RIGHT, 5, 1);
+
+    gtk_grid_attach_next_to(GTK_GRID(grid), factorize_button, equation_textbox, GTK_POS_RIGHT, 5, 1);
+
+    gtk_grid_attach_next_to(GTK_GRID(grid), factors_label, enter_eqn_label, GTK_POS_BOTTOM, 15, 20);
+
+    gtk_grid_attach_next_to(GTK_GRID(grid), factors_output_label, factors_label, GTK_POS_BOTTOM, 15, 20);
+
+    gtk_container_add (GTK_CONTAINER (window), grid);
+    gtk_widget_show_all (window);
+}
+
+int main(int argc, char **argv)
+{
+    GtkApplication *app;
+    int status;
+
+    // Initializing this here as it can be initialized only once.
+    app = gtk_application_new ("org.gtk.example", G_APPLICATION_FLAGS_NONE);
+    g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
+    status = g_application_run (G_APPLICATION (app), argc, argv);
+    g_object_unref (app);
+
+    return status;
+
 }
