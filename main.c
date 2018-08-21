@@ -277,3 +277,17 @@ double complex * polyroot(int degree)
     }
     return R;
 }
+
+//function for evaluation
+void evaluation(char *str)
+{
+    int coefficient=0;
+    char *s;
+    s=rem_space(str);
+    side_separation(s);
+    input_conversion_left(s_left);
+    input_conversion_right(s_right);
+
+    degree_function();
+    coefficient_input();
+}
