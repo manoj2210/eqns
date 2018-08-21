@@ -236,3 +236,44 @@ void coefficient_input()
     coefficient_input_arr[degree-1]=con;
     coefficient_input_arr[degree-1]/=k;
 }
+
+//Function for evaluation of factors
+// "poly" evaluates at x a polynomial of the form:
+// f(x) = cpow(x, n) + a1*cpow(x, n - 1) + a2*cpow(x, n - 2) + . . . + a(n - 2)*x*x + a(n - 1)*x + a(n)
+// where the vector A = {a1, a2, a3, . . . , a(n - 2), a(n - 1), a(n)}
+double complex poly(int degree, double complex x)
+{
+    double complex y = cpow(x, degree);
+    for (int i = 0; i < degree; i++)
+        y += coefficient_input_arr[i]*cpow(x, (degree - i - 1) );
+    return y;
+}
+
+
+// polyroot uses the Durand-Kerner method to find all roots (real and complex) of a polynomial of the form:
+// f(x) = cpow(x, n) + a1*cpow(x, n - 1) + a2*cpow(x, n - 2) + . . . + a(n - 2)*x*x + a(n - 1)*x + a(n)
+// where the vector A = {a1, a2, a3, . . . , a(n - 2), a(n - 1), a(n)}
+double complex * polyroot(int degree)
+{
+    int iterations = 1000;
+    double complex z = 0.4+ 0.9*I;
+    int size = sizeof(z);
+    double complex * R;
+    R = (double complex *) malloc(size*degree);
+    for (int i = 0; i < degree; i++)
+        R[i] = cpow(z, i);
+    for (int i = 0; i < iterations; i++)
+    {
+        for (int j = 0; j < degree; j ++)
+        {
+            double complex B = poly(degree, R[j]);
+            for (int k = 0; k < degree; k++)
+            {
+                if (k != j)
+                B /= R[j] - R[k];
+            }
+            R[j] -= B;
+        }
+    }
+    return R;
+}
