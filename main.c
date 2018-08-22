@@ -515,6 +515,138 @@ void show_solve2equations_screen(GtkWidget *widget, GtkApplication *app)
     gtk_widget_show_all (window);
 }
 
+void show_solve3equations_screen(GtkWidget *widget, GtkApplication *app)
+{
+    // The window that contains all the widgets.
+    GtkWidget *window;
+
+    // A button with the label "Solve" that calculates and solves the equations when clicked
+    GtkWidget *solve_button;
+
+    // The grid in which all the widgets are placed
+    GtkWidget *grid;
+
+    // A label with the text "Enter two equations in the textboxes"
+    GtkWidget *enter_eqn_label;
+
+    // A label to show the text "Solution".
+    GtkWidget *solution_label;
+
+    // Initialize and configure UI
+    window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_title (GTK_WINDOW (window), "Solve three linear equations - EQNS");
+
+    // When a window is set to modal it prevents interaction witb other windows.
+    gtk_window_set_modal(GTK_WINDOW (window), TRUE);
+    gtk_window_set_default_size (GTK_WINDOW (window), 1000, 500);
+
+    equation_textbox1 = gtk_entry_new();
+    gtk_widget_set_size_request(GTK_WIDGET(equation_textbox1), 500, 20);
+    gtk_entry_set_placeholder_text(GTK_ENTRY(equation_textbox1), "Enter the first equation !");
+
+    equation_textbox2 = gtk_entry_new();
+    gtk_widget_set_size_request(GTK_WIDGET(equation_textbox2), 500, 20);
+    gtk_entry_set_placeholder_text(GTK_ENTRY(equation_textbox2), "Enter the second equation !");
+
+    equation_textbox3 = gtk_entry_new();
+    gtk_widget_set_size_request(GTK_WIDGET(equation_textbox3), 500, 20);
+    gtk_entry_set_placeholder_text(GTK_ENTRY(equation_textbox3), "Enter the third equation !");
+
+    solve_button = gtk_button_new_with_label ("Solve");
+    
+    g_signal_connect (solve_button, "clicked", G_CALLBACK (solve_3_equations), NULL);
+    gtk_widget_set_size_request(GTK_WIDGET(solve_button), 10, 30);
+
+    enter_eqn_label = gtk_label_new(" Enter three equations in the textboxes : ");
+
+    solution_label = gtk_label_new("\n\n\n\n  Solution:\n ");
+
+
+    grid = gtk_grid_new();
+    
+    gtk_widget_set_hexpand(solve_button, TRUE);
+    gtk_widget_set_halign(solve_button, GTK_ALIGN_CENTER);
+
+    gtk_widget_set_hexpand(equation_textbox1, TRUE);
+    gtk_widget_set_halign(equation_textbox1, GTK_ALIGN_CENTER);
+
+    gtk_widget_set_hexpand(equation_textbox2, TRUE);
+    gtk_widget_set_halign(equation_textbox2, GTK_ALIGN_CENTER);
+
+    gtk_widget_set_hexpand(equation_textbox3, TRUE);
+    gtk_widget_set_halign(equation_textbox3, GTK_ALIGN_CENTER);
+
+    gtk_widget_set_hexpand (solution_label, FALSE);
+    gtk_widget_set_halign (solution_label, GTK_ALIGN_START);
+
+
+    gtk_grid_attach(GTK_GRID(grid), enter_eqn_label, 0, 0, 10, 1);
+
+    gtk_grid_attach_next_to(GTK_GRID(grid), equation_textbox1, enter_eqn_label, GTK_POS_RIGHT, 5, 1);
+
+    gtk_grid_attach_next_to(GTK_GRID(grid), equation_textbox2, equation_textbox1, GTK_POS_BOTTOM, 5, 1);
+    gtk_grid_attach_next_to(GTK_GRID(grid), solve_button, equation_textbox2, GTK_POS_RIGHT, 5, 1);
+    gtk_grid_attach_next_to(GTK_GRID(grid), equation_textbox3, equation_textbox2, GTK_POS_BOTTOM, 5, 1);
+
+    gtk_grid_attach_next_to(GTK_GRID(grid), solution_label, enter_eqn_label, GTK_POS_BOTTOM, 15, 20);
+
+    gtk_grid_attach_next_to(GTK_GRID(grid), solution_output_label, solution_label, GTK_POS_BOTTOM, 15, 20);
+
+    gtk_container_add (GTK_CONTAINER (window), grid);
+    gtk_widget_show_all (window);
+}
+
+void activate (GtkApplication *app, gpointer user_data)
+{
+    GtkWidget *window;
+    GtkWidget *factorize_button;
+    GtkWidget *solve2eqn_button;
+    GtkWidget *solve3eqn_button;
+    GtkWidget *grid;
+
+    GtkWidget *info_label;
+
+    // Initialize this global variable here with empty text
+    factors_output_label = gtk_label_new(NULL);
+    solution_output_label = gtk_label_new(NULL);
+
+    window = gtk_application_window_new (app);
+    gtk_window_set_title (GTK_WINDOW (window), "Window");
+    gtk_window_set_default_size (GTK_WINDOW (window), 500, 500);
+
+    grid = gtk_grid_new();
+    gtk_container_add (GTK_CONTAINER (window), grid);
+
+    factorize_button = gtk_button_new_with_label ("Factorize an equation(finding roots)");
+    gtk_widget_set_size_request (GTK_WIDGET(factorize_button), 100, 25);
+    g_signal_connect (factorize_button, "clicked", G_CALLBACK (show_factorize_screen), app);
+
+    gtk_widget_set_hexpand(factorize_button, TRUE);
+    gtk_widget_set_halign(factorize_button, GTK_ALIGN_CENTER);
+
+    solve2eqn_button = gtk_button_new_with_label("Solve 2 equations");
+    gtk_widget_set_size_request (GTK_WIDGET(solve2eqn_button), 100, 25);
+    g_signal_connect (solve2eqn_button, "clicked", G_CALLBACK (show_solve2equations_screen), app);
+
+    gtk_widget_set_hexpand(solve2eqn_button, TRUE);
+    gtk_widget_set_halign(solve2eqn_button, GTK_ALIGN_CENTER);
+
+    solve3eqn_button = gtk_button_new_with_label("Solve 3 equations");
+    gtk_widget_set_size_request (GTK_WIDGET(solve3eqn_button), 100, 25);
+    g_signal_connect (solve3eqn_button, "clicked", G_CALLBACK (show_solve3equations_screen), app);
+
+    gtk_widget_set_hexpand(solve3eqn_button, TRUE);
+    gtk_widget_set_halign(solve3eqn_button, GTK_ALIGN_CENTER);
+
+    gtk_grid_attach(GTK_GRID(grid), info_label, 0, 0, 10, 1);
+    gtk_grid_attach_next_to(GTK_GRID(grid), factorize_button, info_label, GTK_POS_BOTTOM, 10, 10);
+    gtk_grid_attach_next_to(GTK_GRID(grid), solve2eqn_button, factorize_button, GTK_POS_BOTTOM, 10, 10);
+    gtk_grid_attach_next_to(GTK_GRID(grid), solve3eqn_button, solve2eqn_button, GTK_POS_BOTTOM, 10, 10);
+
+    gtk_widget_show_all (window);
+}
+
+
 int main(int argc, char **argv)
 {
     GtkApplication *app;
