@@ -617,6 +617,8 @@ void activate (GtkApplication *app, gpointer user_data)
     grid = gtk_grid_new();
     gtk_container_add (GTK_CONTAINER (window), grid);
 
+    info_label = gtk_label_new("\n\nEQNS - Manipulating Math Equations\n\nChoose an option to continue\n");
+
     factorize_button = gtk_button_new_with_label ("Factorize an equation(finding roots)");
     gtk_widget_set_size_request (GTK_WIDGET(factorize_button), 100, 25);
     g_signal_connect (factorize_button, "clicked", G_CALLBACK (show_factorize_screen), app);
