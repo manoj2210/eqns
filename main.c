@@ -663,3 +663,34 @@ int main(int argc, char **argv)
     return status;
 
 }
+
+void solve_2_equations()
+{
+    float a1,b1,a2,b2;
+    int var1=0,var2=0;
+
+    char equation1[100];
+    char equation2[100];
+
+    // A temporary place for holding the string to be shown on the GTK window. 
+    char string_to_print[150];
+
+    strcpy(equation1, gtk_entry_get_text(GTK_ENTRY(equation_textbox1)));
+    strcpy(equation2, gtk_entry_get_text(GTK_ENTRY(equation_textbox2)));
+
+    // Reset all the variables to their initial value;
+    reset_all();
+    parse_input(equation1);
+    con1=con;
+    con=0;
+    for(int i=0;i<26;i++)
+    {
+        coefficient_arr1[i][1]=coefficient_arr[i][1];
+        coefficient_arr[i][1]=0;
+    }
+
+    //Output the given equation 1, Print the co-efficients seperately and then the constant seperately.
+    g_print("\nGiven equation 1:  ");
+    // Here we clear the exixting text in label
+    print_to_label(solution_output_label,"\nGiven equation 1:  ",1);
+}
