@@ -693,4 +693,34 @@ void solve_2_equations()
     g_print("\nGiven equation 1:  ");
     // Here we clear the exixting text in label
     print_to_label(solution_output_label,"\nGiven equation 1:  ",1);
+    for(int i=0;i<26;i++)
+    {
+        for(int j=0;j<10;j++)
+        {
+            if(coefficient_arr1[i][j]!=0)
+            {
+                sprintf(string_to_print, "%+.2f%c^%d \0",coefficient_arr1[i][j],i+'a',j);
+                g_print(string_to_print);
+                print_to_label(solution_output_label,string_to_print,0);
+
+            }
+        }
+    }
+    // Print the constant and append a zero to the end.
+    sprintf(string_to_print, "%+.2f = 0\n", con1);
+    g_print(string_to_print);
+    print_to_label(solution_output_label,string_to_print,0);
+
+    // Parse the second equation.
+    parse_input(equation2);
+    con2=con;
+    for(int i=0;i<26;i++)
+    {
+        coefficient_arr2[i][1]=coefficient_arr[i][1];
+    }
+
+    //Output the given equation 1, Print the co-efficients seperately and then the constant seperately.
+    g_print("\nGiven equation 2:  ");
+    print_to_label(solution_output_label,"\nGiven equation 2:  ",0);
+    
 }
