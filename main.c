@@ -767,3 +767,34 @@ void solve_2_equations()
     two_variablesolve(a1,b1,a2,b2,var1,var2);
     
 }
+
+float two_variablesolve(float a1,float b1,float a2,float b2,char var1,char var2)
+{
+    float x=0,y=0;
+    char string_to_print[500];
+    if((a1*b2 - a2*b1))
+    {
+        x = (b1*con2 - b2*con1) / (a1*b2 - a2*b1);
+        y = (con1*a2 - con2*a1) / (a1*b2 - a2*b1);
+    }
+    else
+    {
+        if((a1*b2 - a2*b1)==0)
+        {
+            if((b1*con2 - b2*con1)==0&&(con1*a2 - con2*a1)==0)
+            {
+                g_print("Infinitely many solutions\n");
+                print_to_label(solution_output_label,"This system of equations has infinitely many solutions \n",0);
+            }
+            else
+            {
+                g_print("No Solution\n");
+                print_to_label(solution_output_label,"This system of equations has no solution \n",0);
+            }
+        }
+    }
+    g_print("\n%c=%.2f\t%c=%.2f\n",var1+'a',x,var2+'a',y);
+    sprintf(string_to_print, "\nOn solving, we get \n%c = %.2f\t %c = %.2f\n", var1+'a', x, var2+'a', y);
+    print_to_label(solution_output_label, string_to_print, 0);
+    return 0;
+}
