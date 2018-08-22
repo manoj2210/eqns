@@ -722,5 +722,48 @@ void solve_2_equations()
     //Output the given equation 1, Print the co-efficients seperately and then the constant seperately.
     g_print("\nGiven equation 2:  ");
     print_to_label(solution_output_label,"\nGiven equation 2:  ",0);
+    for(int i=0;i<26;i++)
+    {
+        for(int j=0;j<10;j++)
+        {
+            if(coefficient_arr2[i][j]!=0)
+            {
+                sprintf(string_to_print, "%+.2f%c^%d \0",coefficient_arr2[i][j],i+'a',j);
+                g_print(string_to_print);
+                print_to_label(solution_output_label,string_to_print,0);
+            }
+        }
+    }
+
+    // Print the constant and append a zero to the end.
+    sprintf(string_to_print, "%+.2f = 0\n", con2);
+    g_print(string_to_print);
+    print_to_label(solution_output_label,string_to_print,0);
+
+    for(int i=0,j=0;i<26;i++)
+    {
+        if(j==0)
+        {
+            if(coefficient_arr1[i][1]!=0||coefficient_arr2[i][1]!=0)
+            {
+                a1=coefficient_arr1[i][1];
+                a2=coefficient_arr2[i][1];j=1;var1=i;
+                continue ;
+            }
+        }
+        if(j==1)
+        {
+             if(coefficient_arr1[i][1]!=0||coefficient_arr2[i][1]!=0)
+            {
+                b1=coefficient_arr1[i][1];
+                b2=coefficient_arr2[i][1];var2=i;
+            }
+        }
+    }
+    // This is just for logging the process to the terminal.
+    g_print("\nCo-efficients of one variable: %f %f",a1,a2);
+    g_print("\nCo-efficients of another variable: %f %f",b1,b2);
+    g_print("Constants: %f %f",con1,con2);
+    two_variablesolve(a1,b1,a2,b2,var1,var2);
     
 }
