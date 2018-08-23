@@ -798,3 +798,243 @@ float two_variablesolve(float a1,float b1,float a2,float b2,char var1,char var2)
     print_to_label(solution_output_label, string_to_print, 0);
     return 0;
 }
+
+
+// This functions finds the determinant of Matrix 
+double determinantOfMatrix(double mat[3][3]) 
+{ 
+    double ans; 
+    ans = mat[0][0] * (mat[1][1] * mat[2][2] - mat[2][1] * mat[1][2]) 
+          - mat[0][1] * (mat[1][0] * mat[2][2] - mat[1][2] * mat[2][0]) 
+          + mat[0][2] * (mat[1][0] * mat[2][1] - mat[1][1] * mat[2][0]); 
+    return ans; 
+} 
+  
+// This function finds the solution of system of 
+// linear equations using cramer's rule 
+void findSolution(double coeff[3][4]) 
+{
+    char string_to_print[150];
+    // Matrix d using coeff as given in cramer's rule 
+    double d[3][3] = { 
+        { coeff[0][0], coeff[0][1], coeff[0][2] }, 
+        { coeff[1][0], coeff[1][1], coeff[1][2] }, 
+        { coeff[2][0], coeff[2][1], coeff[2][2] }, 
+    }; 
+    // Matrix d1 using coeff as given in cramer's rule 
+    double d1[3][3] = { 
+        { coeff[0][3], coeff[0][1], coeff[0][2] }, 
+        { coeff[1][3], coeff[1][1], coeff[1][2] }, 
+        { coeff[2][3], coeff[2][1], coeff[2][2] }, 
+    }; 
+    // Matrix d2 using coeff as given in cramer's rule 
+    double d2[3][3] = { 
+        { coeff[0][0], coeff[0][3], coeff[0][2] }, 
+        { coeff[1][0], coeff[1][3], coeff[1][2] }, 
+        { coeff[2][0], coeff[2][3], coeff[2][2] }, 
+    }; 
+    // Matrix d3 using coeff as given in cramer's rule 
+    double d3[3][3] = { 
+        { coeff[0][0], coeff[0][1], coeff[0][3] }, 
+        { coeff[1][0], coeff[1][1], coeff[1][3] }, 
+        { coeff[2][0], coeff[2][1], coeff[2][3] }, 
+    }; 
+  
+    // Calculating Determinant of Matrices d, d1, d2, d3 
+    double D = determinantOfMatrix(d); 
+    double D1 = determinantOfMatrix(d1); 
+    double D2 = determinantOfMatrix(d2); 
+    double D3 = determinantOfMatrix(d3); 
+  
+    // Case 1 
+    if (D != 0) { 
+        // Coeff have a unique solution. Apply Cramer's Rule 
+        double x = D1 / D; 
+        double y = D2 / D; 
+        double z = D3 / D; // calculating z using cramer's rule
+        
+        sprintf(string_to_print, "\nOn solving, we get \nx = %.2lf\t y = %.2lf\t z = %.2lf\n ",x, y, z);
+        print_to_label(solution_output_label, string_to_print, 0);
+        g_print("Value of x is : %lf\n", x); 
+        g_print("Value of y is : %lf\n", y); 
+        g_print("Value of z is : %lf\n", z); 
+    }
+    // Case 2 
+    else { 
+        if (D1 == 0 && D2 == 0 && D3 == 0)
+        {
+            g_print("Infinite solutions\n"); 
+            print_to_label(solution_output_label, "\n\nThis system has infinitely many solutions", 0);
+        }
+        else if (D1 != 0 || D2 != 0 || D3 != 0)
+        {
+            g_print("No solutions\n");
+            print_to_label(solution_output_label, "\n\nThis system has no solution", 0);
+        }
+    } 
+} 
+
+void solve_3_equations()
+{ 
+    float a1,b1,a2,b2,a3,b3,c1,c2,c3;
+    int var1=0,var2=0,var3=0;
+
+    char equation1[100];
+    char equation2[100];
+    char equation3[100];
+    // A temporary place for holding the string to be shown on the GTK window. 
+    char string_to_print[150];
+
+    strcpy(equation1, gtk_entry_get_text(GTK_ENTRY(equation_textbox1)));
+    strcpy(equation2, gtk_entry_get_text(GTK_ENTRY(equation_textbox2)));
+    strcpy(equation3, gtk_entry_get_text(GTK_ENTRY(equation_textbox3)));
+
+    // Reset all the variables to their initial value;
+    reset_all();
+    parse_input(equation1);
+
+    con1=con;
+    con=0;
+    for(int i=0;i<26;i++)
+    {
+        coefficient_arr1[i][1]=coefficient_arr[i][1];
+        coefficient_arr[i][1]=0;
+    }
+    
+    //Output the given equation 1, Print the co-efficients seperately and then the constant seperately.
+    g_print("\nGiven equation 1:  ");
+    // Here we clear the exixting text in label
+    print_to_label(solution_output_label,"\nGiven equation 1:  ",1);
+    
+    for(int i=0;i<26;i++)
+    {
+        for(int j=0;j<10;j++)
+        {
+            if(coefficient_arr1[i][j]!=0)
+            {
+                sprintf(string_to_print, "%+.2f%c^%d \0",coefficient_arr1[i][j],i+'a',j);
+                g_print(string_to_print);
+                print_to_label(solution_output_label,string_to_print,0);
+
+            }
+        }
+    }
+
+    // Print the constant and append a zero to the end.
+    sprintf(string_to_print, "%+.2f = 0\n", con1);
+    g_print(string_to_print);
+    print_to_label(solution_output_label,string_to_print,0);
+
+    parse_input(equation2);
+    con2=con;
+    con=0;
+    for(int i=0;i<26;i++)
+    {
+        coefficient_arr2[i][1]=coefficient_arr[i][1];
+        coefficient_arr[i][1]=0;
+    }
+
+    //Output the given equation 1, Print the co-efficients seperately and then the constant seperately.
+    g_print("\nGiven equation 2:  ");
+    print_to_label(solution_output_label,"\nGiven equation 2:  ",0);
+
+    for(int i=0;i<26;i++)
+    {
+        for(int j=0;j<10;j++)
+        {
+            if(coefficient_arr2[i][j]!=0)
+            {
+                // g_print("\n%f %c ^ %d ",coefficient_arr2[i][j],i+'a',j);
+                sprintf(string_to_print, "%+.2f%c^%d \0",coefficient_arr2[i][j],i+'a',j);
+                g_print(string_to_print);
+                print_to_label(solution_output_label,string_to_print,0);
+
+            }
+        }
+    }
+
+    // Print the constant and append a zero to the end.
+    sprintf(string_to_print, "%+.2f = 0\n", con2);
+    g_print(string_to_print);
+    print_to_label(solution_output_label,string_to_print,0);
+
+
+    parse_input(equation3);
+    con3=con;
+    con=0;
+    for(int i=0;i<26;i++)
+    {
+        coefficient_arr3[i][1]=coefficient_arr[i][1];
+        coefficient_arr[i][1]=0;
+    }
+
+    //Output the given equation 1, Print the co-efficients seperately and then the constant seperately.
+    g_print("\nGiven equation 3:  ");
+    print_to_label(solution_output_label,"\nGiven equation 3:  ",0);
+
+    for(int i=0;i<26;i++)
+    {
+        for(int j=0;j<10;j++)
+        {
+            if(coefficient_arr3[i][j]!=0)
+            {
+                sprintf(string_to_print, "%+.2f%c^%d \0",coefficient_arr3[i][j],i+'a',j);
+                g_print(string_to_print);
+                print_to_label(solution_output_label,string_to_print,0);
+            }
+        }
+    }
+
+    // Print the constant and append a zero to the end.
+    sprintf(string_to_print, "%+.2f = 0\n", con3);
+    g_print(string_to_print);
+    print_to_label(solution_output_label,string_to_print,0);
+
+    for(int i=0,j=0;i<26;i++)
+    {
+        if(j==0)
+        {
+            if(coefficient_arr1[i][1]!=0||coefficient_arr2[i][1]!=0||coefficient_arr3[i][1]!=0)
+            {
+                a1=coefficient_arr1[i][1];
+                a2=coefficient_arr2[i][1];
+                a3=coefficient_arr3[i][1];
+                j=1;var1=i;
+                continue ;
+            }
+        }
+        if(j==1)
+        {
+             if(coefficient_arr1[i][1]!=0||coefficient_arr2[i][1]!=0||coefficient_arr3[i][1]!=0)
+            {
+                b1=coefficient_arr1[i][1];
+                b2=coefficient_arr2[i][1];
+                b3=coefficient_arr3[i][1];
+                var2=i;j=2;
+                continue ;
+            }
+        }
+        if(j==2)
+        {
+             if(coefficient_arr1[i][1]!=0||coefficient_arr2[i][1]!=0||coefficient_arr3[i][1]!=0)
+            {
+                c1=coefficient_arr1[i][1];
+                c2=coefficient_arr2[i][1];
+                c3=coefficient_arr3[i][1];
+                var3=i;j=2;
+                continue ;
+            }
+        }
+    }
+    g_print("\nCo-efficients: \n%f %f %f",a1,a2,a3);
+    g_print("\n %f %f %f",b1,b2,b3);
+    g_print("\n %f %f %f",c1,c2,c3);
+    g_print("\n%f %f %f\n",con1,con2,con3);
+    double coeff[3][4] = { 
+        { a1,b1,c1,-1*con1}, 
+        { a2,b2,c2,-1*con2}, 
+        { a3,b3,c3,-1*con3}, 
+    };
+
+    findSolution(coeff); 
+} 
