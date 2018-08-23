@@ -1038,3 +1038,83 @@ void solve_3_equations()
 
     findSolution(coeff); 
 } 
+
+void compute_factors(GtkWidget *widget, GtkWidget *text)
+{
+    const gchar *equation;
+    equation = gtk_entry_get_text(GTK_ENTRY(text));
+    g_print ("\n-----\n");
+    g_print(equation);
+    print_to_label(factors_output_label, "", 1);
+
+    char s[50];
+    strcpy(s, equation);
+    g_print("\n\nGiven input: %s\n\n", s);
+
+    factorize(s);
+    reset_all();
+}
+
+void print_to_label(GtkWidget *label, char *string, int clear_before_printing)
+{
+    if(clear_before_printing) 
+    {
+        gtk_label_set_text(GTK_LABEL(label), string);
+    }
+    else
+    {
+        char existing_output[500];
+        g_print(string);
+        strcpy(existing_output, gtk_label_get_text(GTK_LABEL(label)));
+        gtk_label_set_text(GTK_LABEL(label), strcat(existing_output, string));
+    }
+}
+
+void reset_all()
+{
+    /*Clearing all the global variables*/
+    degree=1;
+    temp=0;
+    con=0;con1=0;con2=0;con3=0;
+    for(int i = 0; i < 100; i++)
+    {
+        s_left[i] = s_right[i] = coefficient_input_arr[i] = 0;
+    }
+
+    for(int i = 0; i < 26; i++)
+    {
+        for(int j = 0; j < 100; j++)
+        {
+            coefficient_arr[i][j]=0;
+            coefficient_arr1[i][j]=0;
+            coefficient_arr2[i][j]=0;
+            coefficient_arr3[i][j]=0;
+        }
+    }
+}
+
+/*
+Function to get the printable representation of a complex number.
+*/
+char *complex_to_string(double complex number)
+{
+    //static as we are returning this to the calling function
+    static char string[15];
+    double real = creal(number);
+    double imaginary = cimag(number);
+
+    if(fabs(imaginary) < (double) 0.001)
+    {
+        sprintf(string, "%.2lf", real);
+    }
+    else if(fabs(real) < (double) 0.001)
+    {
+        sprintf(string, "%.2lfi", imaginary);
+    }
+    else
+    {
+        sprintf(string, "%.2lf%+.2lfi", real, imaginary);
+    }
+
+    return string;
+}
