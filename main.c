@@ -1,8 +1,11 @@
+//Brackets are not allowed and Function division is not allowed
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
 #include<complex.h>
 #include<math.h>
+
+#include<gtk/gtk.h>
 
 //Declaration
 void evaluation(char *str);
@@ -28,6 +31,16 @@ void reset_all();
 void parse_input(char *equation);
 
 
+//Global variable
+int degree=1;
+char s_left[100]={0},s_right[100]={0};
+float coefficient_arr[26][100]={0},temp=0;
+float coefficient_input_arr[100]={0};
+float coefficient_arr1[26][100]={0};
+float coefficient_arr2[26][100]={0};
+float coefficient_arr3[26][100]={0};
+double con=0,con1=0,con2=0,con3=0;
+
 // The label in which the factors in Factorize screen are shown
 GtkWidget *factors_output_label;
 
@@ -43,15 +56,6 @@ GtkWidget *equation_textbox2;
 // A GtkEntry which will act as an input for equation
 GtkWidget *equation_textbox3;
 
-//Global variable
-int degree=1;
-char s_left[100]={0},s_right[100]={0};
-float coefficient_arr[26][100]={0},temp=0;
-float coefficient_input_arr[100]={0};
-float coefficient_arr1[26][100]={0};
-float coefficient_arr2[26][100]={0};
-float coefficient_arr3[26][100]={0};
-double con=0,con1=0,con2=0,con3=0;
 
 //Function for removing all the blank spaces in the input
 char * append(char *a,int number,int digit)
@@ -61,11 +65,14 @@ char * append(char *a,int number,int digit)
     int p=0,r=0,i=0;
     int t=0;
     int x,g,s,n,o;
-    if(number==1){
+    if(number==1)
+    {
         b[0]='^';
         b[1]='1';
         b[2]=0;
-    }else{
+    }
+    else
+    {
         b[0]='1';
         b[1]=0;
     }
@@ -75,7 +82,8 @@ char * append(char *a,int number,int digit)
     i=0;
 
     // Copying the input string into another array
-    while(i <= r){
+    while(i <= r)
+    {
         c[i]=a[i];
         i++;
     }
@@ -83,7 +91,8 @@ char * append(char *a,int number,int digit)
     o = p+n;
 
     // Adding the sub-string
-    for(i=p;i<s;i++){
+    for(i=p;i<s;i++)
+    {
         x = c[i];
         if(t<n)
         {
@@ -94,11 +103,9 @@ char * append(char *a,int number,int digit)
         o=o+1;
     }
     return a;
-}
-
-//Function to remove spaces between the equation
-char * rem_space(char *s)
-{
+    }
+    char * rem_space(char *s)
+    {
     int i,j, len=strlen(s);
 	for(i=0; i<len; i++)
 	{
@@ -140,8 +147,8 @@ char * rem_space(char *s)
     }
     return (s);
 }
-    
-//Function for separating the left side and right side with some changes
+
+//Function for separating the left sid eand right side with some changes
 void side_separation(char*s)
 {
     int i,j=0;
@@ -237,7 +244,8 @@ void degree_function()
     }
  }
 
- /*
+
+/*
     Here in this function, we parse a a given string of equation to the format 
     we need it to be 
 */
@@ -277,6 +285,7 @@ void coefficient_input()
     coefficient_input_arr[degree-1]=con;
     coefficient_input_arr[degree-1]/=k;
 }
+
 
 //Function for evaluation of factors
 // "poly" evaluates at x a polynomial of the form:
@@ -318,6 +327,7 @@ double complex * polyroot(int degree)
     }
     return R;
 }
+
 
 //function for evaluation
 void evaluation(char *str)
@@ -439,7 +449,6 @@ void show_factorize_screen(GtkWidget *widget, GtkApplication *app)
     gtk_widget_show_all (window);
 }
 
-
 void show_solve2equations_screen(GtkWidget *widget, GtkApplication *app)
 {
     // The window that contains all the widgets.
@@ -514,6 +523,7 @@ void show_solve2equations_screen(GtkWidget *widget, GtkApplication *app)
     gtk_container_add (GTK_CONTAINER (window), grid);
     gtk_widget_show_all (window);
 }
+
 
 void show_solve3equations_screen(GtkWidget *widget, GtkApplication *app)
 {
@@ -649,6 +659,8 @@ void activate (GtkApplication *app, gpointer user_data)
 }
 
 
+
+
 int main(int argc, char **argv)
 {
     GtkApplication *app;
@@ -663,6 +675,7 @@ int main(int argc, char **argv)
     return status;
 
 }
+
 
 void solve_2_equations()
 {
@@ -799,7 +812,6 @@ float two_variablesolve(float a1,float b1,float a2,float b2,char var1,char var2)
     return 0;
 }
 
-
 // This functions finds the determinant of Matrix 
 double determinantOfMatrix(double mat[3][3]) 
 { 
@@ -873,7 +885,6 @@ void findSolution(double coeff[3][4])
         }
     } 
 } 
-
 void solve_3_equations()
 { 
     float a1,b1,a2,b2,a3,b3,c1,c2,c3;
@@ -1038,6 +1049,7 @@ void solve_3_equations()
 
     findSolution(coeff); 
 } 
+
 
 void compute_factors(GtkWidget *widget, GtkWidget *text)
 {
