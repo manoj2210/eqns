@@ -7,6 +7,8 @@
 
 #include<gtk/gtk.h>
 
+#define MAX_ROOT=10
+
 //Declaration
 void evaluation(char *str);
 void coefficient_input();
@@ -60,7 +62,7 @@ GtkWidget *equation_textbox3;
 //Function for removing all the blank spaces in the input
 char * append(char *a,int number,int digit)
 {
-    char b[10];
+    char b[MAX_ROOT];
     char c[100];
     int p=0,r=0,i=0;
     int t=0;
