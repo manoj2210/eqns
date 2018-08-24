@@ -7,7 +7,7 @@
 
 #include<gtk/gtk.h>
 
-#define MAX_ROOT=10
+#define MAX_ROOT 10
 
 //Declaration
 void evaluation(char *str);
