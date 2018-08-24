@@ -10,7 +10,7 @@ This repo helps us in finding the roots of polynomial equations with the time co
 Currently `n`, degree of the polynomial equation is set to 10.
 You can change that by changing the macro at 10th line,
 ```C
-#define MAX_ROOT=10
+#define MAX_ROOT 10
 ```
 ## Solving System of linear equations of two and three unknowns:
 The system of equations are solved using the determinant uproach depending on the value of Delta.
@@ -33,6 +33,23 @@ cc `pkg-config --cflags gtk+-3.0` main.c -o main `pkg-config --libs gtk+-3.0`
 ```
 
 ## Usage
+
+Make sure you have make in you device
+
+To compile the project run,
+```bash
+$ make
+```
+
+To run the project,
+```bash
+$ make run
+```
+
+To remove the binaries use,
+```bash
+$ make clean
+```
 
 > 1. You can give inputs with respect to left hand and right hand side.
 > 2. Infinitely many solution, No solution cases are handled in the program.
